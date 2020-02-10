@@ -5,7 +5,7 @@ pipeline{
         PATH = "/opt/maven3/bin:$PATH"
     }
 
-    stage{
+    stages{
         stage("Git Checkout"){
             steps{
                 git 'https://github.com/shaypi/course'
