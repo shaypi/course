@@ -28,5 +28,21 @@ pipeline{
             }
         }
     }
+        stage('Upload war file'){
+          nexusArtifactUploader(
+                            nexusVersion: 'nexus3',
+                            protocol: 'http',
+                            nexusUrl: 'nexus:8081',
+                            version: '0.3.1',
+                            groupId: 'time-tracker-web',
+                            repository: 'maven-private',
+                            credentialsId: 'nexus-creds',
+                            artifacts: [
+                                [artifactId: 'time-tracker-web',
+                                file: 'web/target/time-tracker-web-0.3.1.war',
+                                type: 'war']
+                            ]
+                        );
+        }
     
 }
