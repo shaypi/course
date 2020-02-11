@@ -27,10 +27,9 @@ pipeline{
                 }
             }
         }
-    }
         stage('Upload war file'){
             steps{
-            nexusArtifactUploader(
+                nexusArtifactUploader(
                                 nexusVersion: 'nexus3',
                                 protocol: 'http',
                                 nexusUrl: 'nexus:8081',
@@ -46,4 +45,5 @@ pipeline{
                             );
             }
         }
+    }
 }
