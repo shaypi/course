@@ -1,6 +1,6 @@
 pipeline{
     agent any
-   
+
     environment{
         PATH = "/opt/maven3/bin:$PATH"
     }
@@ -18,8 +18,9 @@ pipeline{
                 sh 'mvn package'
             }                
         }
-        stage('Build && SonarQube analysis') {
-                withSonarQubeEnv('sonarqube') {
+        stage('Build && SonarQube analysis'){
+            steps{
+                withSonarQubeEnv('sonarqube'){
                     container('maven') {
                         sh 'mvn clean package sonar:sonar'
                     }
