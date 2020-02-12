@@ -1,0 +1,68 @@
+version: '3'
+services:
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins
+    build:
+      context: jenkins
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./jenkins:/var/jenkins_home"
+    networks:
+      - net
+
+#########################################################################################################
+  sonarqube:
+    container_name: sonarqube
+    image: sonarqube
+    expose:
+      - "9000"
+    ports:
+      - "9000:9000"
+    networks:
+      - net
+    environment:
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://sonar_db:5432/sonar
+      - SONARQUBE_JDBC_USERNAME=sonar
+      - SONARQUBE_JDBC_PASSWORD=sonar
+    volumes:
+      - sonarqube_conf:/opt/sonarqube/conf
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+
+  db:
+    container_name: sonar_db
+    image: postgres
+    networks:
+      - net
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+    volumes:
+      - postgresql:/course/postgresql
+      - postgresql_data:/course/postgresql/data
+#########################################################################################################
+  nexus:
+    container_name: nexus
+    image: sonatype/nexus3
+    volumes:
+      - nexus-data:/nexus-data
+    ports:
+      - "8081:8081"
+      - "8082-8082"
+      - "8083:8083"
+    networks:
+      - net
+#########################################################################################################
+networks:
+  net:
+volumes:
+  nexus-data:
+  sonarqube_conf:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_bundled-plugins:
+  postgresql:
+  postgresql_data:
