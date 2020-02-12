@@ -38,5 +38,11 @@ pipeline{
                             );
             }
         }
+        stage('Build docker and upload'){
+            steps{
+              sh  'docker image build -t nexus:8083/mvn ./'
+              sh  'docker push nexus:8083/mvn'
+            }
+        }
     }
 }
