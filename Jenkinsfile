@@ -12,7 +12,7 @@ pipeline{
                 git 'https://github.com/shaypi/course'
             }
         }                
-    }
+
         stage('Build && SonarQube analysis'){
             steps{
                 withSonarQubeEnv('sonarqube'){
