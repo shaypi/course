@@ -38,9 +38,10 @@ pipeline{
                             );
             }
         }
-        stage('Build docker and upload'){
+        stage('Build docker && upload'){
             steps{
               sh  'docker image build -t nexus:8083/mvn ./'
+              sh  'docker login -u admin -p admin123 nexus:8083'
               sh  'docker push nexus:8083/mvn'
             }
         }
